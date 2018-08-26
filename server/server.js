@@ -15,21 +15,15 @@ app.use(express.static(publicPath));
 
 io.on('connection', (socket) => {
   console.log('new user connected');
-  //
-  // socket.emit('newMessage', {
-  //   from: 'Jim',
-  //   message: 'This is a chat message',
-  //   createdAt: 123
-  // });
-
-  socket.emit('newMessage', generateMessage('Admin', 'Welcome to the chat app'));
-
-  socket.broadcast.emit('newMessage', generateMessage('Admin', 'New user jonined chat'));
 
   socket.on('join', (params, callback) => {
     if (!isRealString(params.name) || !isRealString(params.room)) {
       callback('Name and roomname are required');
     }
+
+    socket.join(params.room);
+    socket.emit('newMessage', generateMessage('Admin', 'Welcome to the chat app'));
+    socket.broadcast.to(params.room).emit('newMessage', generateMessage('Admin', `${params.name} jonined chat`));
 
     callback();
   });
@@ -38,13 +32,6 @@ io.on('connection', (socket) => {
     console.log('createMessage', message);
     io.emit('newMessage', generateMessage(message.from, message.text));
     callback();
-
-
-    // socket.broadcast.emit('newMessage', {
-    //   from: message.from,
-    //   text: message.text,
-    //   createdAt: new Date().getTime()
-    // });
   });
 
   socket.on('createLocationMessage', (coords) => {
