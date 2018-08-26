@@ -1,14 +1,3 @@
-[{
-  id: '/#asdfasdfjkasdlfjkhasdf',
-  name: 'Felix',
-  room: 'Felix fans'
-}]
-
-//addUser(id, name, room)
-//removeUser(id)
-//getUser(name, room)
-//getUserList(room)
-
 class Users {
   constructor () {
     this.users = [];
@@ -19,12 +8,11 @@ class Users {
     return user;
   }
   removeUser (id) {
-    var user = this.users.filter((user) => user.id !== id)[0]
+    var user = this.users.filter((user) => user.id !== id)[0];
     if(user){
       this.users = this.users.filter((user) => user.id !== id);
     }
     return user;
-    //return user that was removed
   }
   getUser(id) {
     return this.user = this.users.filter((user) => user.id === id)[0]
@@ -36,19 +24,5 @@ class Users {
     return namesArray;
   }
 }
-
-// class Person {
-//   constructor (name, age) {
-//     this.name = name;
-//     this.age = age;
-//   }
-//   getUserDescription () {
-//     return `${this.name} is ${this.age} year(s) old`;
-//   }
-// }
-//
-// var me = new Person('Felix', 25);
-// var description = me.getUserDescription();
-// console.log(description);
 
 module.exports = {Users};
